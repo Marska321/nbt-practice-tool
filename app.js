@@ -15,6 +15,53 @@ class NBTPracticeApp {
         this.scoreDisplay = document.getElementById('scoreDisplay');
         this.progressFill = document.getElementById('progressFill');
         this.actionButtons = document.getElementById('actionButtons');
+        this.loadingOverlay = document.getElementById('loadingOverlay');
+        this.loadingMessage = document.getElementById('loadingMessage');
+        this.loadingSubtitle = document.getElementById('loadingSubtitle');
+        
+        // Motivational messages
+        this.motivationalMessages = [
+            {
+                message: "Excellence is a habit, not an act",
+                subtitle: "You're building the skills for NBT success!"
+            },
+            {
+                message: "Every expert was once a beginner",
+                subtitle: "Your journey to mastery continues with each question"
+            },
+            {
+                message: "Success is where preparation meets opportunity",
+                subtitle: "You're preparing for your NBT breakthrough!"
+            },
+            {
+                message: "The only way to do great work is to love what you learn",
+                subtitle: "Embrace the challenge and grow stronger"
+            },
+            {
+                message: "Champions are made in practice",
+                subtitle: "Every question makes you more confident"
+            },
+            {
+                message: "Progress, not perfection",
+                subtitle: "Each attempt teaches you something valuable"
+            },
+            {
+                message: "Your potential is endless",
+                subtitle: "Keep pushing forward to unlock your best self"
+            },
+            {
+                message: "Learning is the key to unlocking your future",
+                subtitle: "You're investing in your academic success"
+            },
+            {
+                message: "Believe in yourself and your abilities",
+                subtitle: "You have everything it takes to succeed"
+            },
+            {
+                message: "Small steps lead to big achievements",
+                subtitle: "You're closer to your NBT goals than you think"
+            }
+        ];
         
         this.initialize();
     }
@@ -22,6 +69,17 @@ class NBTPracticeApp {
     initialize() {
         this.showWelcomeMessage();
         this.renderActionButtons();
+    }
+
+    showLoadingAnimation() {
+        const randomMessage = this.motivationalMessages[Math.floor(Math.random() * this.motivationalMessages.length)];
+        this.loadingMessage.textContent = randomMessage.message;
+        this.loadingSubtitle.textContent = randomMessage.subtitle;
+        this.loadingOverlay.style.display = 'flex';
+    }
+
+    hideLoadingAnimation() {
+        this.loadingOverlay.style.display = 'none';
     }
 
     onUserLogin(user, isPremium) {
@@ -106,37 +164,43 @@ class NBTPracticeApp {
             return;
         }
 
-        this.isPracticeActive = true;
-        this.currentQuestionIndex = 0;
-        this.userAnswers = [];
-        this.score = 0;
-        this.questionStartTime = new Date();
+        // Show loading animation when starting practice
+        this.showLoadingAnimation();
         
-        // Start analytics session
-        if (window.analyticsManager) {
-            window.analyticsManager.startSession();
-        }
-        
-        // Generate test based on user type and preferences
-        this.currentTest = window.questionGenerator.generatePracticeTest(this.isPremium);
-        
-        if (type !== 'mixed') {
-            // Filter for specific question type
-            this.currentTest = this.currentTest.filter(q => 
-                type === 'academic' ? q.type === 'Academic Literacy' : q.type === 'Quantitative Literacy'
-            );
+        setTimeout(() => {
+            this.isPracticeActive = true;
+            this.currentQuestionIndex = 0;
+            this.userAnswers = [];
+            this.score = 0;
+            this.questionStartTime = new Date();
             
-            // Ensure we have questions of the requested type
-            if (this.currentTest.length === 0) {
-                const question = window.questionGenerator.getRandomQuestion(type);
-                this.currentTest = [question];
+            // Start analytics session
+            if (window.analyticsManager) {
+                window.analyticsManager.startSession();
             }
-        }
+            
+            // Generate test based on user type and preferences
+            this.currentTest = window.questionGenerator.generatePracticeTest(this.isPremium);
+            
+            if (type !== 'mixed') {
+                // Filter for specific question type
+                this.currentTest = this.currentTest.filter(q => 
+                    type === 'academic' ? q.type === 'Academic Literacy' : q.type === 'Quantitative Literacy'
+                );
+                
+                // Ensure we have questions of the requested type
+                if (this.currentTest.length === 0) {
+                    const question = window.questionGenerator.getRandomQuestion(type);
+                    this.currentTest = [question];
+                }
+            }
 
-        this.renderActionButtons();
-        this.displayQuestion();
-        this.updateProgress();
-        this.updateScore();
+            this.hideLoadingAnimation();
+            this.renderActionButtons();
+            this.displayQuestion();
+            this.updateProgress();
+            this.updateScore();
+        }, 2000); // Show loading for 2 seconds when starting
     }
 
     startCustomTest() {
@@ -145,19 +209,33 @@ class NBTPracticeApp {
             return;
         }
 
-        const length = prompt("How many questions would you like? (1-20)", "10");
-        if (length && !isNaN(length) && length > 0 && length <= 20) {
-            this.isPracticeActive = true;
-            this.currentQuestionIndex = 0;
-            this.userAnswers = [];
-            this.score = 0;
+        const length = prompt("How many questions would you like? (5-50)", "20");
+        if (length && !isNaN(length) && length >= 5 && length <= 50) {
+            // Show loading animation for custom test
+            this.showLoadingAnimation();
             
-            this.currentTest = window.questionGenerator.generatePracticeTest(true, parseInt(length));
-            
-            this.renderActionButtons();
-            this.displayQuestion();
-            this.updateProgress();
-            this.updateScore();
+            setTimeout(() => {
+                this.isPracticeActive = true;
+                this.currentQuestionIndex = 0;
+                this.userAnswers = [];
+                this.score = 0;
+                this.questionStartTime = new Date();
+                
+                // Start analytics session
+                if (window.analyticsManager) {
+                    window.analyticsManager.startSession();
+                }
+                
+                this.currentTest = window.questionGenerator.generatePracticeTest(true, parseInt(length));
+                
+                this.hideLoadingAnimation();
+                this.renderActionButtons();
+                this.displayQuestion();
+                this.updateProgress();
+                this.updateScore();
+            }, 2000);
+        } else {
+            alert("Please enter a valid number between 5 and 50.");
         }
     }
 
@@ -249,9 +327,15 @@ class NBTPracticeApp {
     }
 
     nextQuestion() {
-        this.currentQuestionIndex++;
-        this.updateProgress();
-        this.displayQuestion();
+        // Show loading animation before next question
+        this.showLoadingAnimation();
+        
+        setTimeout(() => {
+            this.hideLoadingAnimation();
+            this.currentQuestionIndex++;
+            this.updateProgress();
+            this.displayQuestion();
+        }, 1500); // Show loading for 1.5 seconds
     }
 
     async showResults() {
@@ -360,21 +444,21 @@ class NBTPracticeApp {
                 <div style="margin: 20px 0;">
                     <h3>Premium Features:</h3>
                     <ul style="text-align: left; margin: 10px 0;">
-                        <li>✨ Unlimited practice questions</li>
-                        <li>📊 Custom test lengths (1-20 questions)</li>
-                        <li>📈 Detailed performance analytics</li>
+                        <li>✨ Custom test lengths (5-50 questions)</li>
+                        <li>📊 Advanced analytics dashboard</li>
+                        <li>📈 Detailed performance tracking</li>
                         <li>🎯 Subject-specific practice modes</li>
                         <li>💾 Progress saving and history</li>
-                        <li>🚀 Priority support</li>
+                        <li>🚀 Personalized recommendations</li>
                     </ul>
                 </div>
                 
                 <div style="color: #6b7280; margin: 15px 0;">
-                    <strong>Free Tier Limitations:</strong>
+                    <strong>Free Tier:</strong>
                     <ul style="text-align: left; margin: 10px 0;">
-                        <li>Limited to 3 questions per session</li>
-                        <li>Basic question types only</li>
-                        <li>No progress tracking</li>
+                        <li>5 questions per practice session</li>
+                        <li>Basic analytics overview</li>
+                        <li>Standard question types</li>
                     </ul>
                 </div>
                 
@@ -392,3 +476,4 @@ class NBTPracticeApp {
 
 // Initialize the application
 window.app = new NBTPracticeApp();
+ 
