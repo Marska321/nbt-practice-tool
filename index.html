@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaleidoscope Learning: NBT Prep</title>
+    <meta name="description" content="NBT AQL Practice Tool by Kaleidoscope Learning">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDQgMjQ0IiB3aWR0aD0iMjQ0IiBoZWlnaHQ9IjI0NCI+PHBhdGggZD0ibTQzLjAzIDIyLjg2OGM1Ljg0NS02LjEzODE5Ljg3OS05Ljg0NS42LjEzOGwxMi41OTQtNi4xMzgxMzc1NSIgZmlsbD0iIzI1NjNlYiIvPjwvc3ZnPg==">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kaleidoscope Learning</h1>
+            <p>NBT AQL Practice Tool</p>
+        </div>
+
+        <div class="auth-section" id="authSection">
+             <!-- Login/Logout buttons and forms will appear here -->
+        </div>
+        <div class="user-status" id="userStatus"></div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="score-display" id="scoreDisplay"></div>
+
+        <div id="questionContainer"></div>
+
+        <div class="buttons" id="actionButtons">
+            <!-- Action buttons will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Environment Variables (must load first) -->
+    <script src="env-runtime.js"></script>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="questions.js"></script>
+    <script src="analytics.js"></script>
+    <script src="analytics-ui.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
