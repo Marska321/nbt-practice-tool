@@ -11,16 +11,47 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+
+    <div id="auth-container">
+        <div class="auth-card">
+            <div id="login-form">
+                <h2>Login to Practice</h2>
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button id="login-button">Login</button>
+                <a href="#" id="show-signup">Don't have an account? Sign Up</a>
+                <a href="#" id="show-forgot-password">Forgot Password?</a>
+            </div>
+
+            <div id="signup-form" style="display: none;">
+                <h2>Create Your Account</h2>
+                <input type="text" id="signup-name" placeholder="Your Name" required>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button id="signup-button">Sign Up</button>
+                <a href="#" id="show-login">Already have an account? Login</a>
+            </div>
+
+            <div id="forgot-password-form" style="display: none;">
+                <h2>Reset Password</h2>
+                <p>Enter your email to receive a reset link.</p>
+                <input type="email" id="reset-email" placeholder="Email" required>
+                <button id="reset-button">Send Reset Link</button>
+                <a href="#" id="back-to-login">Back to Login</a>
+            </div>
+             <p id="auth-error" class="error-message"></p>
+        </div>
+    </div>
+
+    <div id="app-container" class="container" style="display: none;">
         <div class="header">
+            <div class="user-info">
+                <span id="welcome-message"></span>
+                <button id="logout-button">Logout</button>
+            </div>
             <h1>Kaleidoscope Learning</h1>
             <p>NBT AQL Practice Tool</p>
         </div>
-
-        <div class="auth-section" id="authSection">
-             <!-- Login/Logout buttons and forms will appear here -->
-        </div>
-        <div class="user-status" id="userStatus"></div>
 
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
@@ -31,26 +62,21 @@
         <div id="questionContainer"></div>
 
         <div class="buttons" id="actionButtons">
-            <!-- Action buttons will be dynamically added here -->
-        </div>
+            </div>
     </div>
 
-    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-spinner"></div>
         <div class="loading-message" id="loadingMessage">Preparing your next question...</div>
         <div class="loading-subtitle" id="loadingSubtitle">Every question brings you closer to success!</div>
     </div>
 
-    <!-- Environment Variables (must load first) -->
     <script src="env-runtime.js"></script>
     
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
-    <!-- Application Scripts -->
     <script src="firebase-config.js"></script>
     <script src="questions.js"></script>
     <script src="analytics.js"></script>
