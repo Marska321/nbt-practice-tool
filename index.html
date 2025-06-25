@@ -11,47 +11,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <div id="auth-container">
-        <div class="auth-card">
-            <div id="login-form">
-                <h2>Login to Practice</h2>
-                <input type="email" id="login-email" placeholder="Email" required>
-                <input type="password" id="login-password" placeholder="Password" required>
-                <button id="login-button">Login</button>
-                <a href="#" id="show-signup">Don't have an account? Sign Up</a>
-                <a href="#" id="show-forgot-password">Forgot Password?</a>
-            </div>
-
-            <div id="signup-form" style="display: none;">
-                <h2>Create Your Account</h2>
-                <input type="text" id="signup-name" placeholder="Your Name" required>
-                <input type="email" id="signup-email" placeholder="Email" required>
-                <input type="password" id="signup-password" placeholder="Password" required>
-                <button id="signup-button">Sign Up</button>
-                <a href="#" id="show-login">Already have an account? Login</a>
-            </div>
-
-            <div id="forgot-password-form" style="display: none;">
-                <h2>Reset Password</h2>
-                <p>Enter your email to receive a reset link.</p>
-                <input type="email" id="reset-email" placeholder="Email" required>
-                <button id="reset-button">Send Reset Link</button>
-                <a href="#" id="back-to-login">Back to Login</a>
-            </div>
-             <p id="auth-error" class="error-message"></p>
-        </div>
-    </div>
-
-    <div id="app-container" class="container" style="display: none;">
+    <div class="container">
         <div class="header">
-            <div class="user-info">
-                <span id="welcome-message"></span>
-                <button id="logout-button">Logout</button>
-            </div>
             <h1>Kaleidoscope Learning</h1>
             <p>NBT AQL Practice Tool</p>
         </div>
+
+        <div class="auth-section" id="authSection">
+            </div>
+        <div class="user-status" id="userStatus"></div>
 
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
